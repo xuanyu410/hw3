@@ -11,5 +11,5 @@ gemini fresh2.5
 ## 範例截圖或 Demo 說明
 <img width="1917" height="908" alt="螢幕擷取畫面 2025-10-15 144924" src="https://github.com/user-attachments/assets/44ded789-1a63-484e-a8df-b68639af87eb" />
 <img width="1916" height="877" alt="螢幕擷取畫面 2025-10-15 144945" src="https://github.com/user-attachments/assets/a465567b-38c8-452e-9d8d-d631f966354f" />
-## 影片連結
-[影片連結]([https://facebook.github.io/create-react-app/docs/deployment](https://youtu.be/FkpDfz_tf4g))
+##影片連結
+[影片連結](https://youtu.be/FkpDfz_tf4g)
