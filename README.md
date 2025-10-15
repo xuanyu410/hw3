@@ -5,7 +5,7 @@
 gemini fresh2.5
 ## 安裝與執行方式
 - 在cmd建立npx create-react-app@latest web2
-- 把本地的個人網站與照片資料夾放入web2的publc
+- 把本地的個人網站與照片資料夾放入web2的public
 - AItest.tsx改成AItest.js、更改index.js放入web2的src
 - 在index.html加入<div id="react-root"style="margin-top:20px；></div>
 ## 影片連結
