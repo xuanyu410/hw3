@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人網站</title>
+  <style>
+  body {
+  font-family: "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
+  display: flex;
+  scroll-behavior: smooth;
+}
+
+/* 左側側邊欄 */
+aside {
+  width: 250px;
+  background: #fff8dc;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  text-align: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+/* 左側照片 改成正方形+設計邊框 */
+aside img {
+  width: 160px;
+  height: 160px;
+  border-radius: 20px; /* 稍微圓角 */
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 5px solid #ffd59e; /* 邊框顏色呼應主題 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* 陰影 */
+}
+.social-icons a {
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 24px;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #0077b5; /* LinkedIn藍色為例，可以各別調整 */
+}
+
+/* 導覽按鈕 */
+.nav-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 15px;
+  background: #ffd59e;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: #ffb347;
+}
+
+/* 箭頭符號 */
+.arrow {
+  transition: transform 0.3s ease;
+}
+.arrow.open {
+  transform: rotate(90deg);
+}
+
+/* 子選單 */
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  margin-left: 15px;
+}
+.submenu a {
+  display: block;
+  padding: 8px 12px;
+  margin: 5px 0;
+  background: #ffe6c7;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #444;
+  transition: background 0.3s;
+}
+.submenu a:hover {
+  background: #ffcc80;
+}
+.submenu.open {
+  max-height: 300px;
+}
+
+aside p {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* 右側主要內容 */
+main {
+  flex: 1;
+  padding: 30px;
+  margin-left: 270px;
+}
+
+section {
+  background: white;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+section h2 {
+  border-left: 5px solid #ffb347;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+section p {
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+/* === About info grid === */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin-top: 20px;
+}
+.info-item {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.info-item strong {
+  color: #333;
+  margin-right: 5px;
+}
+
+/* === Experience 卡片 === */
+.exp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.exp-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.3s;
+}
+.exp-card:hover {
+  transform: translateY(-5px);
+}
+.exp-card img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+.exp-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #ff9800;
+}
+.exp-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* === Skills 直條圖 === */
+
+.skill {
+  margin-bottom: 20px;
+}
+
+.skill span {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.progress-bar {
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 22px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ffb347, #ffd59e);
+  color: #333;
+  text-align: right;
+  padding-right: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 22px;
+  border-radius: 10px 0 0 10px;
+  transition: width 1.5s ease-in-out;
+}
+
+
+/* === 校內外活動 === */
+#activities {
+  margin-top: 40px;
+}
+#activities h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.activity-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 10px;
+}
+.activity-slide {
+  flex: 0 0 80%;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  scroll-snap-align: center;
+  text-align: center;
+  padding: 20px;
+}
+.activity-slide img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.activity-slide h3 {
+  margin: 10px 0 5px;
+  font-size: 20px;
+  color: #333;
+}
+.activity-slide p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* === footer === */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #eee;
+  font-size: 14px;
+}
+
+  </style>
+</head>
+<body>
+  <!-- 左側側邊欄 -->
+  <aside>
+    <img src="png/IMG.png" alt="我的照片">
+    <h2>楊媗宇Jessica</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="social-icons">
+  <a href="https://www.instagram.com/xuanyu502/" target="_blank"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.facebook.com/yang.xuan.yu.84706" target="_blank"><i class="fab fa-facebook"></i></a>
+  <a href="https://www.linkedin.com/in/hsuan-yu-yang/" target="_blank"><i class="fab fa-linkedin"></i></a>
+</div>
+    <!-- 可收合選單 -->
+    <button class="nav-btn" onclick="toggleMenu(this)">
+      個人資料 <span class="arrow">▶</span>
+    </button>
+    <div class="submenu">
+      <a href="#about">About Me</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+    </div>
+
+    <button class="nav-btn" onclick="toggleMenu(this)">
+      校內外活動 <span class="arrow">▶</span>
+    </button>
+    <div class="submenu">
+      <a href="#activities">Extracurricular Activities</a>
+    </div>
+
+    <p>Email: jessicayang950410@gmail.com</p>
+  </aside>
+
+  <!-- 右側內容 -->
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>您好，我是楊媗宇，就讀於國立台灣師範大學科技應用人力資源發展學系，學習與科技組，專業於數位學習結合人力資源培訓，也正積極學習與數據分析相關的課程。性格較為內斂但善於傾聽，喜歡跨出舒適圈為自己設立挑戰。</p>
+      <div class="info-grid">
+        <div class="info-item"><strong>Birthday:</strong> 10 Apr 2006</div>
+        <div class="info-item"><strong>Age:</strong> 19</div>
+        <div class="info-item">
+  <strong>Website:</strong> 
+  <a href="file:///C:/Users/jessi/Downloads/JS/personal.file.html#activities" target="_blank">
+    前往網站
+  </a>
+</div>
+        <div class="info-item"><strong>Degree:</strong> 
+        Bachelor</div>
+        <div class="info-item"><strong>Phone:</strong> +886 933 919 160</div>
+        <div class="info-item"><strong>Email:</strong> jessicayang950410@gmail.com</div>
+        <div class="info-item"><strong>City:</strong> Taoyuan, Taiwan</div>
+        <div class="info-item"><strong>School:</strong> NTNU</div>
+      </div>
+    </section>
+    <div id="react-root"style="margin-top:20px；"></div>
+   <section id="experience">
+  <h2>Experience</h2>
+  <div class="exp-grid">
+    <div class="exp-card">
+    
+      <h3>雙主修企業管理學系</h3>
+      <p>結合人力資源專業與管理思維，協助企業有效運用人力資源，提升競爭優勢。</p>
+    </div>
+
+    <div class="exp-card">
+      
+      <h3>數位學習專案</h3>
+      <p>設計 <strong>國小升國中銜接 VR 教案</strong>，以遊戲化學習降低學習枯燥度，在專題競賽中榮獲<strong>第一名</strong>。</p>
+    </div>
+
+    <div class="exp-card">
+     
+      <h3>系統化分析</h3>
+      <p>運用 <strong>Excel VBA</strong> 撰寫網路爬蟲，並進行數據蒐集與統計分析，協助專案決策。</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+
+  <div class="skill">
+    <span>架設一頁式網站 (HTML / CSS / JavaScript)</span>
+    <div class="progress-bar">
+      <div class="progress" style="width:70%">70%</div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Word 文書處理 / PowerPoint 簡報能力</span>
+    <div class="progress-bar">
+      <div class="progress" style="width:65%">65%</div>
+    </div>
+  </div>
+
+  <div class="skill">
+    <span>Excel 數據分析與 VBA 程式撰寫</span>
+    <div class="progress-bar">
+      <div class="progress" style="width:85%">85%</div>
+    </div>
+  </div>
+</section>
+
+
+    <section id="activities">
+      <h2>Extracurricular Activities</h2>
+      <div class="activity-slider">
+        <div class="activity-slide">
+          <img src="png/food1.jpg" alt="美食社">
+          <img src="png/food3.jpg" alt="美食社">
+          <h3>113-1美食社</h3>
+          <p>參與社團與不同系的同學交流，一起製作甜點的同時也學習默契配合，在這學期認識許多厲害的朋友。</p>
+        </div>
+        <div class="activity-slide">
+          <img src="png/cebu1.jpg" alt="菲律賓">
+           <img src="png/cebu2.jpg" alt="菲律賓">
+          <h3>113暑期菲律賓短期遊學</h3>
+          <p>在為期一個月的旅程，到達一個陌生的環境且外語的環境，與老師們用英語聊天，和不同國家的同學用英文交流，讓我體會到英文的重要。</p>
+        </div>
+        <div class="activity-slide">
+          <img src="png/volleyball1.jpg" alt="排球">
+           <img src="png/volleyball2.jpg" alt="排球">
+          <h3>系排</h3>
+          <p>在大學加入排球隊，從基礎的托球開始學習，到最後在新生盃得名，喜歡上了團隊的感覺，在場上的六人互相幫助，每個人都是缺一不可角色。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function toggleMenu(button) {
+      const submenu = button.nextElementSibling;
+      const arrow = button.querySelector(".arrow");
+      submenu.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+  </script>
+</body>
+</html>
+<script>
+  // 自動輪播 Extracurricular Activities
+  const slider = document.querySelector('.activity-slider');
+  let currentIndex = 0;
+
+  function autoSlide() {
+    if (!slider) return;
+    const slides = slider.querySelectorAll('.activity-slide');
+    const slideWidth = slides[0].offsetWidth + 20; // 單張寬度 + gap
+    currentIndex++;
+
+    // 如果超過最後一張，就回到第 0 張
+    if (currentIndex >= slides.length) {
+      currentIndex = 0;
+    }
+
+    slider.scrollTo({
+      left: currentIndex * slideWidth,
+      behavior: 'smooth'
+    });
+  }
+
+  // 每 3 秒自動滑動一次
+  setInterval(autoSlide, 5000);
+</script>
+
