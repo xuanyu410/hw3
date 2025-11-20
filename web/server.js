@@ -4,13 +4,15 @@
 require('dotenv').config(); 
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch'); // 舊版 Node.js 環境可能需要安裝這個，新版可直接用內建的 fetch
+// 新版 Node.js 環境會使用內建 fetch，但為了確保舊版相容性，保留 node-fetch
+const fetch = require('node-fetch'); 
 
 const app = express();
-const PORT = 3001; // 選擇一個與前端不同的埠號，例如 3001
+// 部署關鍵修改 1：使用 Render 提供的 PORT 環境變數
+const PORT = process.env.PORT || 3001; // 確保使用 process.env.PORT
 
 // 允許跨域請求 (CORS)
-app.use(cors()); 
+app.use(cors());
 
 // 取得環境變數中的 API Key 及 GitHub 相關變數
 const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY;
@@ -47,7 +49,7 @@ app.get('/api/weather-proxy', async (req, res) => {
         return res.status(400).json({ error: "缺少 city 或 date 參數" });
     }
 
-    const API_URL = `http://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=zh_tw`;
+    const API_URL = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=zh_tw`;
 
     try {
         const response = await fetch(API_URL);

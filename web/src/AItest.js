@@ -13,7 +13,12 @@ function getTomorrowDateString() {
 // 假設 GITHUB_REPO_OWNER 在實際環境中已定義，這裡先給一個預設值以避免錯誤
 // 在真實專案中，這個值可能來自 .env 或其他配置
 const GITHUB_REPO_OWNER = "xuanyu410"; 
-
+const BASE_API_URL = 
+  window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://localhost:3001' 
+    // !!! 請在這裡替換成您部署到 Render 後端 Web Service 的【實際公開網址】!!!
+    // 💡 建議您在 Render 部署時，將後端 Web Service 命名為 hw3-proxy，網址會是：
+    : 'https://hw3-proxy.onrender.com';
 
 export default function FortuneChat({
   defaultModel = "gemini-2.5-flash",
@@ -115,7 +120,7 @@ export default function FortuneChat({
     const targetDate = weatherDate;
     
     // *** 🎯 呼叫 Node.js 後端代理伺服器！ ***
-    const PROXY_URL = `http://localhost:3001/api/weather-proxy?city=${encodeURIComponent(city)}&date=${targetDate}`;
+    const PROXY_URL = `${BASE_API_URL}/api/weather-proxy?city=${encodeURIComponent(city)}&date=${targetDate}`;
 
     try {
         // 1. 呼叫代理伺服器
@@ -182,7 +187,7 @@ export default function FortuneChat({
 
     const owner = repoOwnerInput.trim();
     // 呼叫後端代理伺服器獲取專案列表
-    const PROXY_URL = `http://localhost:3001/api/github-repos?owner=${encodeURIComponent(owner)}`;
+    const PROXY_URL = `${BASE_API_URL}/api/github-repos?owner=${encodeURIComponent(owner)}`;
 
     try {
         const proxyResponse = await fetch(PROXY_URL);
@@ -229,7 +234,7 @@ export default function FortuneChat({
     setGithubError("");
 
     // *** 🎯 URL 改為傳遞 owner 和 repo 參數 ***
-    const PROXY_URL = `http://localhost:3001/api/github-issues?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}`;
+    const PROXY_URL = `${BASE_API_URL}/api/github-issues?owner=${encodeURIComponent(owner)}&repo=${encodeURIComponent(repo)}`;
 
     try {
         const proxyResponse = await fetch(PROXY_URL);
