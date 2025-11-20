@@ -38,7 +38,13 @@ function getGithubHeaders(owner) {
     }
     return headers;
 }
-
+// 健康檢查或根目錄連線測試
+app.get('/', (req, res) => {
+    res.json({ 
+        message: "Proxy 服務運行中，請使用 /api/weather-proxy 或 /api/github-repos 路由。",
+        status: "OK"
+    });
+});
 // --- 路由 1: OpenWeather 天氣代理 ---
 app.get('/api/weather-proxy', async (req, res) => {
     // 1. 從前端獲取參數 (城市和日期)
