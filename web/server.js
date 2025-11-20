@@ -1,11 +1,11 @@
 // server.js (Node.js/Express 伺服器)
 
 // 載入環境變數
-//require('dotenv').config(); 
+
 const express = require('express');
 const cors = require('cors');
 // 新版 Node.js 環境會使用內建 fetch，但為了確保舊版相容性，保留 node-fetch
-const fetch = require('node-fetch'); 
+const fetch = require('node-fetch').default; // 🎯 修正：透過 .default 取出 fetch 函式
 
 const app = express();
 // 部署關鍵修改 1：使用 Render 提供的 PORT 環境變數
