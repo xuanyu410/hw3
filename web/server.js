@@ -1,7 +1,7 @@
 // server.js (Node.js/Express 伺服器)
 
 // 載入環境變數
-require('dotenv').config(); 
+//require('dotenv').config(); 
 const express = require('express');
 const cors = require('cors');
 // 新版 Node.js 環境會使用內建 fetch，但為了確保舊版相容性，保留 node-fetch
